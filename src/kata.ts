@@ -1,5 +1,6 @@
 export default class StringCalculator {
   add(numbers: string): number {
-    return 0;
+    const sum = Number(numbers);
+    return sum;
   }
 }
