@@ -16,3 +16,9 @@ test('String with two numbers should return it sum', () => {
   expect(calc.add('1,2')).toBe(3);
   expect(calc.add('100,200')).toBe(300);
 });
+
+test('String with more than two numbers should return it sum', () => {
+  const calc = new StringCalculator();
+  expect(calc.add('1,2,3')).toBe(6);
+  expect(calc.add('1,2,3,1,2,3')).toBe(12);
+});
