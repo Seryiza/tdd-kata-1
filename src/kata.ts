@@ -34,7 +34,7 @@ export default class StringCalculator {
 
       console.error(isDelimiterComplicated, customDelimiter.slice(1, -1));
       return isDelimiterComplicated
-        ? [customDelimiter.slice(1, -1)]
+        ? customDelimiter.slice(1, -1).split('][')
         : [customDelimiter];
     }
     return [',', '\n'];

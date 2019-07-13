@@ -50,3 +50,8 @@ test('Custom delimiters can be any length', () => {
   const calc = new StringCalculator();
   expect(calc.add('//[***]\n1***2***3')).toBe(6);
 });
+
+test('String can contain multiple custom delimiters', () => {
+  const calc = new StringCalculator();
+  expect(calc.add('//[*][%]\n1*2%3')).toBe(6);
+});
