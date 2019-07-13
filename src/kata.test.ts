@@ -28,3 +28,8 @@ test('String with newline separators should return correct sum', () => {
   expect(calc.add('1\n2,3')).toBe(6);
   expect(calc.add('1\n2\n3')).toBe(6);
 });
+
+test('Calculator supports setting a custom delimiter', () => {
+  const calc = new StringCalculator();
+  expect(calc.add('//;\n1;2')).toBe(3);
+});
