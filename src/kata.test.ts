@@ -39,3 +39,9 @@ test('String with negative numbers should throw exception', () => {
   expect(() => calc.add('1,-2,3')).toThrow('negatives not allowed: -2');
   expect(() => calc.add('1,-2,-3')).toThrow('negatives not allowed: -2, -3');
 });
+
+test('Numbers bigger than 1000 should be ignored', () => {
+  const calc = new StringCalculator();
+  expect(calc.add('2,1001')).toBe(2);
+  expect(calc.add('2,1001,2')).toBe(4);
+});

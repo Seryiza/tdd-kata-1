@@ -54,7 +54,9 @@ export default class StringCalculator {
     const delimiters = this.getDelimiters(numbersWithOption);
     const numbersAsString = this.getNumbersAsString(numbersWithOption);
 
-    const numbers = splitBySeparators(numbersAsString, delimiters).map(Number)
+    const numbers = splitBySeparators(numbersAsString, delimiters)
+      .map(Number)
+      .filter(x => x <= 1000);
 
     const negatives = numbers.filter(x => x < 0);
     if (negatives.length) {
