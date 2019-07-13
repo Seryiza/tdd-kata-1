@@ -1,8 +1,21 @@
-// Better use third-party library for regexps instead my escape and matchAll functions
+// Note: better use third-party library for regexps instead my escape and matchAll functions
+
+/**
+ * Escaping string to use in regexp.
+ *
+ * @param input Input text to escape
+ */
 const escape = (input: string): string => {
   return input.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 };
 
+/**
+ * Return all matches of regexp in text.
+ * Note: requires a group in regexp-.
+ *
+ * @param re
+ * @param text
+ */
 const matchAll = (re: RegExp, text: string): string[] => {
   const matched = [];
 
@@ -13,6 +26,12 @@ const matchAll = (re: RegExp, text: string): string[] => {
   return matched;
 };
 
+/**
+ * Split text by separators.
+ *
+ * @param text
+ * @param separators
+ */
 const splitBySeparators = (text: string, separators: string[]): any[] => {
   const escaped = separators.map(escape);
   const re = new RegExp(`(${escaped.join('|')})`);
@@ -28,6 +47,23 @@ export default class StringCalculator {
     return numbersWithOptions.startsWith(StringCalculator.CUSTOM_DELIMITER_BEGIN);
   }
 
+  /**
+   * Return delimiters from options (if exists) or default settings.
+   *
+   * @example
+   * // -> [';']
+   * getDelimiters('//;\n1;2;3');
+   *
+   * @example
+   * // -> ['***', '%']
+   * getDelimiters('//[***][%]\n1***2%3');
+   *
+   * @example
+   * // -> default settings
+   * getDelimiters('1,2,3');
+   *
+   * @param numbersWithOptions
+   */
   getDelimiters(numbersWithOptions: string): string[] {
     if (this.hasCustomDelimiter(numbersWithOptions)) {
       const start = (
@@ -45,6 +81,11 @@ export default class StringCalculator {
     return [',', '\n'];
   }
 
+  /**
+   * Return numbers without options from string.
+   *
+   * @param numbersWithOptions
+   */
   getNumbersAsString(numbersWithOptions: string): string {
     if (this.hasCustomDelimiter(numbersWithOptions)) {
       const start = numbersWithOptions.indexOf(StringCalculator.CUSTOM_DELIMITER_END);
@@ -53,6 +94,11 @@ export default class StringCalculator {
     return numbersWithOptions;
   }
 
+  /**
+   * Return sum of numbers.
+   *
+   * @param numbersWithOptionss
+   */
   add(numbersWithOptionss: string): number {
     const delimiters = this.getDelimiters(numbersWithOptionss);
     const numbersAsString = this.getNumbersAsString(numbersWithOptionss);
@@ -66,7 +112,6 @@ export default class StringCalculator {
       throw new Error(`negatives not allowed: ${negatives.join(', ')}`);
     }
 
-    const sum = numbers.reduce((sum, num) => sum + num);
-    return sum;
+    return numbers.reduce((sum, num) => sum + num);
   }
 }
