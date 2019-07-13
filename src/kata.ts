@@ -1,3 +1,4 @@
+// Better use third-party library for regexps instead my escape and matchAll functions
 const escape = (input: string): string => {
   return input.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 };
@@ -23,38 +24,38 @@ export default class StringCalculator {
   static CUSTOM_DELIMITER_BEGIN = '//';
   static CUSTOM_DELIMITER_END = '\n';
 
-  hasCustomDelimiter(numbersWithOption: string): boolean {
-    return numbersWithOption.startsWith(StringCalculator.CUSTOM_DELIMITER_BEGIN);
+  hasCustomDelimiter(numbersWithOptions: string): boolean {
+    return numbersWithOptions.startsWith(StringCalculator.CUSTOM_DELIMITER_BEGIN);
   }
 
-  getDelimiters(numbersWithOption: string): string[] {
-    if (this.hasCustomDelimiter(numbersWithOption)) {
+  getDelimiters(numbersWithOptions: string): string[] {
+    if (this.hasCustomDelimiter(numbersWithOptions)) {
       const start = (
-        numbersWithOption.indexOf(StringCalculator.CUSTOM_DELIMITER_BEGIN)
+        numbersWithOptions.indexOf(StringCalculator.CUSTOM_DELIMITER_BEGIN)
         + StringCalculator.CUSTOM_DELIMITER_BEGIN.length
       );
       const end = (
-        numbersWithOption.indexOf(StringCalculator.CUSTOM_DELIMITER_END)
+        numbersWithOptions.indexOf(StringCalculator.CUSTOM_DELIMITER_END)
       );
 
-      const option = numbersWithOption.slice(start, end);
+      const option = numbersWithOptions.slice(start, end);
       const customDelimiters = matchAll(/\[(.*?)\]/g, option);
       return customDelimiters || [option];
     }
     return [',', '\n'];
   }
 
-  getNumbersAsString(numbersWithOption: string): string {
-    if (this.hasCustomDelimiter(numbersWithOption)) {
-      const start = numbersWithOption.indexOf(StringCalculator.CUSTOM_DELIMITER_END);
-      return numbersWithOption.slice(start + 1);
+  getNumbersAsString(numbersWithOptions: string): string {
+    if (this.hasCustomDelimiter(numbersWithOptions)) {
+      const start = numbersWithOptions.indexOf(StringCalculator.CUSTOM_DELIMITER_END);
+      return numbersWithOptions.slice(start + 1);
     }
-    return numbersWithOption;
+    return numbersWithOptions;
   }
 
-  add(numbersWithOption: string): number {
-    const delimiters = this.getDelimiters(numbersWithOption);
-    const numbersAsString = this.getNumbersAsString(numbersWithOption);
+  add(numbersWithOptionss: string): number {
+    const delimiters = this.getDelimiters(numbersWithOptionss);
+    const numbersAsString = this.getNumbersAsString(numbersWithOptionss);
 
     const numbers = splitBySeparators(numbersAsString, delimiters)
       .map(Number)
