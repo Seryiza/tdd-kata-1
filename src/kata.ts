@@ -9,6 +9,7 @@ const splitBySeparators = (text: string, separators: string[]): any[] => {
 };
 
 export default class StringCalculator {
+  static NUMBER_LIMIT = 1000;
   static CUSTOM_DELIMITER_BEGIN = '//';
   static CUSTOM_DELIMITER_END = '\n';
 
@@ -54,7 +55,7 @@ export default class StringCalculator {
 
     const numbers = splitBySeparators(numbersAsString, delimiters)
       .map(Number)
-      .filter(x => x <= 1000);
+      .filter(x => x <= StringCalculator.NUMBER_LIMIT);
 
     const negatives = numbers.filter(x => x < 0);
     if (negatives.length) {
