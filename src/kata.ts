@@ -1,22 +1,11 @@
+const escape = (input: string): string => {
+  return input.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+};
+
 const splitBySeparators = (text: string, separators: string[]): any[] => {
-  const splitted = [];
-
-  const separatorsIndices = [];
-  for (let i = 0; i < text.length; i++) {
-    const isSeparator = separators.some(sep => sep === text[i]);
-    if (isSeparator) {
-      separatorsIndices.push(i);
-    }
-  }
-
-  const sliceIndices = [-1, ...separatorsIndices, text.length];
-  for (let i = 0; i < sliceIndices.length - 1; i++) {
-    const start = sliceIndices[i] + 1;
-    const end = sliceIndices[i + 1];
-    splitted.push(text.slice(start, end));
-  }
-
-  return splitted;
+  const escaped = separators.map(escape);
+  const re = new RegExp(`(${escaped.join('|')})`);
+  return text.split(re);
 };
 
 export default class StringCalculator {
@@ -35,9 +24,18 @@ export default class StringCalculator {
       );
       const end = (
         numbersWithOption.indexOf(StringCalculator.CUSTOM_DELIMITER_END)
-      )
+      );
 
-      return [numbersWithOption.slice(start, end)];
+      const customDelimiter = numbersWithOption.slice(start, end);
+      const isDelimiterComplicated = (
+        customDelimiter.startsWith('[')
+        && customDelimiter.endsWith(']')
+      );
+
+      console.error(isDelimiterComplicated, customDelimiter.slice(1, -1));
+      return isDelimiterComplicated
+        ? [customDelimiter.slice(1, -1)]
+        : [customDelimiter];
     }
     return [',', '\n'];
   }

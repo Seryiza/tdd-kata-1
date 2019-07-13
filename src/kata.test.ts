@@ -45,3 +45,8 @@ test('Numbers bigger than 1000 should be ignored', () => {
   expect(calc.add('2,1001')).toBe(2);
   expect(calc.add('2,1001,2')).toBe(4);
 });
+
+test('Custom delimiters can be any length', () => {
+  const calc = new StringCalculator();
+  expect(calc.add('//[***]\n1***2***3')).toBe(6);
+});
