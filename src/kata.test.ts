@@ -33,3 +33,9 @@ test('Calculator supports setting a custom delimiter', () => {
   const calc = new StringCalculator();
   expect(calc.add('//;\n1;2')).toBe(3);
 });
+
+test('String with negative numbers should throw exception', () => {
+  const calc = new StringCalculator();
+  expect(() => calc.add('1,-2,3')).toThrow('negatives not allowed: -2');
+  expect(() => calc.add('1,-2,-3')).toThrow('negatives not allowed: -2, -3');
+});

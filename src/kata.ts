@@ -1,6 +1,6 @@
 const splitBySeparators = (text: string, separators: string[]): any[] => {
   const splitted = [];
-  
+
   const separatorsIndices = [];
   for (let i = 0; i < text.length; i++) {
     const isSeparator = separators.some(sep => sep === text[i]);
@@ -15,7 +15,7 @@ const splitBySeparators = (text: string, separators: string[]): any[] => {
     const end = sliceIndices[i + 1];
     splitted.push(text.slice(start, end));
   }
-  
+
   return splitted;
 };
 
@@ -36,7 +36,7 @@ export default class StringCalculator {
       const end = (
         numbersWithOption.indexOf(StringCalculator.CUSTOM_DELIMITER_END)
       )
-      
+
       return [numbersWithOption.slice(start, end)];
     }
     return [',', '\n'];
@@ -54,10 +54,14 @@ export default class StringCalculator {
     const delimiters = this.getDelimiters(numbersWithOption);
     const numbersAsString = this.getNumbersAsString(numbersWithOption);
 
-    const sum = splitBySeparators(numbersAsString, delimiters)
-      .map(Number)
-      .reduce((sum, num) => sum + num);
+    const numbers = splitBySeparators(numbersAsString, delimiters).map(Number)
 
+    const negatives = numbers.filter(x => x < 0);
+    if (negatives.length) {
+      throw new Error(`negatives not allowed: ${negatives.join(', ')}`);
+    }
+
+    const sum = numbers.reduce((sum, num) => sum + num);
     return sum;
   }
 }
