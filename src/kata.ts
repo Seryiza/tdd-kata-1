@@ -2,6 +2,16 @@ const escape = (input: string): string => {
   return input.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 };
 
+const matchAll = (re: RegExp, text: string): string[] => {
+  const matched = [];
+
+  let match: string[];
+  while (match = re.exec(text)) {
+    matched.push(match[1]);
+  }
+  return matched;
+};
+
 const splitBySeparators = (text: string, separators: string[]): any[] => {
   const escaped = separators.map(escape);
   const re = new RegExp(`(${escaped.join('|')})`);
@@ -27,16 +37,9 @@ export default class StringCalculator {
         numbersWithOption.indexOf(StringCalculator.CUSTOM_DELIMITER_END)
       );
 
-      const customDelimiter = numbersWithOption.slice(start, end);
-      const isDelimiterComplicated = (
-        customDelimiter.startsWith('[')
-        && customDelimiter.endsWith(']')
-      );
-
-      console.error(isDelimiterComplicated, customDelimiter.slice(1, -1));
-      return isDelimiterComplicated
-        ? customDelimiter.slice(1, -1).split('][')
-        : [customDelimiter];
+      const option = numbersWithOption.slice(start, end);
+      const customDelimiters = matchAll(/\[(.*?)\]/g, option);
+      return customDelimiters || [option];
     }
     return [',', '\n'];
   }
