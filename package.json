@@ -1,0 +1,11 @@
+{
+  "name": "tdd-kata-1",
+  "version": "1.0.0",
+  "description": "My solution for TDD Kata 1 exercise by Roy Osherove",
+  "main": "src/kata.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Seryiza",
+  "license": "MIT"
+}
